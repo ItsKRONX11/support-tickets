@@ -1,0 +1,9 @@
+name: SupportTickets
+version: '${project.version}'
+main: me.itskronx11.supportchat.platform.spigot.SupportSpigotPlugin
+api-version: '1.13'
+author: ItsKRONX11
+commands:
+  support:
+    description: Main command for the SupportTickets plugin.
+    aliases: [sup]
