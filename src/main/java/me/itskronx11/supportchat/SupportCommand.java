@@ -129,7 +129,6 @@ public class SupportCommand {
                 for (TextComponent component : languageManager.getSupportAlert(sender, reason)) {
                     staff.sendMessage(component);
                 }
-                System.out.println(languageManager.usingTitles());
                 if (languageManager.usingTitles()) {
                     List<String> titleContent = languageManager.getStringList("support-title.content");
                     staff.sendTitle(
