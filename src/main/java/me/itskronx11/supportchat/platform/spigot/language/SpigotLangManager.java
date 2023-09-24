@@ -1,6 +1,6 @@
 package me.itskronx11.supportchat.platform.spigot.language;
 
-import me.itskronx11.supportchat.language.LanguageManager;
+import me.itskronx11.supportchat.language.ConfigManager;
 import me.itskronx11.supportchat.SupportMain;
 import me.itskronx11.supportchat.user.User;
 import me.itskronx11.supportchat.support.Request;
@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public final class SpigotLangManager implements LanguageManager {
+public final class SpigotLangManager implements ConfigManager {
 private final SupportMain main;
 private FileConfiguration config;
 private String[] usage;

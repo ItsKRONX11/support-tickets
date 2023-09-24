@@ -1,10 +1,11 @@
 package me.itskronx11.supportchat.platform.bungee.language;
 
 import me.itskronx11.supportchat.SupportMain;
-import me.itskronx11.supportchat.language.LanguageManager;
+import me.itskronx11.supportchat.language.ConfigManager;
 import me.itskronx11.supportchat.support.Request;
 import me.itskronx11.supportchat.user.User;
 import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.config.Configuration;
@@ -18,7 +19,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class BungeeLangManager implements LanguageManager {
+public class BungeeLangManager implements ConfigManager {
     private final SupportMain main;
     private Configuration config;
     private String[] usage;
@@ -35,7 +36,8 @@ public class BungeeLangManager implements LanguageManager {
 
     @Override
     public String format(User user, String s) {
-        return format(s).replaceAll("%name%", user.getName());
+        return format(s).replaceAll("%name%", user.getName())
+                .replaceAll("%server%", ProxyServer.getInstance().getPlayer(user.getUniqueId()).getServer().getInfo().getName());
     }
 
     @Override

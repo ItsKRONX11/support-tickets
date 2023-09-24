@@ -6,7 +6,7 @@ import net.md_5.bungee.api.chat.TextComponent;
 
 import java.util.List;
 
-public interface LanguageManager {
+public interface ConfigManager {
     default String createArgs(int start, String[] args) {
         StringBuilder builder = new StringBuilder();
         for (int i = start; i < args.length; i++) {

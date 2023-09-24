@@ -26,7 +26,7 @@ public class Support {
         supporter.setSupport(this);
 
         helped.sendMessage(main.getLanguageManager().getMessage(supporter, "helped-player"));
-        helped.sendMessage(main.getLanguageManager().getMessage(helped, "helped-staff"));
+        supporter.sendMessage(main.getLanguageManager().getMessage(helped, "helped-staff"));
     }
     public void close(User whoClosed) {
         for (UUID uuid : userIds) {

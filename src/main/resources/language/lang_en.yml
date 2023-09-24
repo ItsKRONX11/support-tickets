@@ -70,6 +70,7 @@ usage:
   - ' &2/support help &8- &7Show this help message'
   - ' &2/support reload &8- &7Reload the plugin config'
   - ' &2/support request <reason> &8- &7Request support'
+  - ' &2/support join <player> &8- &7Join a player's ticket'
   - ' &2/support leave &8- &7Leave the ticket/queue'
   - ' &2/support list &8- &7List waiting players'
   - ' &2/support chat <message> &8- &7Send a message to the ticket'

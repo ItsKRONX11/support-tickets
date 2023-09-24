@@ -1,7 +1,7 @@
 package me.itskronx11.supportchat.platform.bungee;
 
 import me.itskronx11.supportchat.SupportMain;
-import me.itskronx11.supportchat.language.LanguageManager;
+import me.itskronx11.supportchat.language.ConfigManager;
 import me.itskronx11.supportchat.platform.bungee.language.BungeeLangManager;
 import me.itskronx11.supportchat.user.User;
 import me.itskronx11.supportchat.user.UserManager;
@@ -22,7 +22,7 @@ import java.nio.file.Files;
 
 public class SupportBungeePlugin extends Plugin implements SupportMain {
     private UserManager userManager;
-    private LanguageManager languageManager;
+    private ConfigManager languageManager;
     private Configuration config;
 
     @Override
@@ -72,7 +72,7 @@ public class SupportBungeePlugin extends Plugin implements SupportMain {
     }
 
     @Override
-    public LanguageManager getLanguageManager() {
+    public ConfigManager getLanguageManager() {
         return languageManager;
     }
 

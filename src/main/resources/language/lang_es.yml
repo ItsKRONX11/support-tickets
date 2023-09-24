@@ -71,6 +71,7 @@ usage:
   - ' &2/support help &8- &7Mostrar este mensaje de ayuda'
   - ' &2/support reload &8- &7Recargar la configuración del complemento'
   - ' &2/support request <razón> &8- &7Solicitar soporte'
+  - ' &2/support join <player> &8- &7Unirse al ticket de un jugador.'
   - ' &2/support leave &8- &7Salir del ticket/cola'
   - ' &2/support list &8- &7Listar jugadores en espera'
   - ' &2/support chat <mensaje> &8- &7Enviar un mensaje al ticket'

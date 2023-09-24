@@ -2,9 +2,8 @@ package me.itskronx11.supportchat.platform.spigot.command;
 
 import me.itskronx11.supportchat.SupportCommand;
 import me.itskronx11.supportchat.SupportMain;
-import me.itskronx11.supportchat.language.LanguageManager;
+import me.itskronx11.supportchat.language.ConfigManager;
 import me.itskronx11.supportchat.user.User;
-import me.itskronx11.supportchat.platform.spigot.language.SpigotLangManager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -12,7 +11,7 @@ import org.bukkit.entity.Player;
 
 public final class SpigotCommand extends SupportCommand implements CommandExecutor {
     private final SupportMain main;
-    private final LanguageManager languageManager;
+    private final ConfigManager languageManager;
 
     public SpigotCommand(SupportMain main) {
         super(main, main.getLanguageManager());

@@ -1,6 +1,6 @@
 package me.itskronx11.supportchat;
 
-import me.itskronx11.supportchat.language.LanguageManager;
+import me.itskronx11.supportchat.language.ConfigManager;
 import me.itskronx11.supportchat.support.Request;
 import me.itskronx11.supportchat.support.Support;
 import me.itskronx11.supportchat.user.User;
@@ -8,11 +8,12 @@ import net.md_5.bungee.api.chat.*;
 
 public class SupportCommand {
     private final SupportMain main;
-    private final LanguageManager languageManager;
-    public SupportCommand(SupportMain main, LanguageManager languageManager) {
+    private final ConfigManager languageManager;
+    public SupportCommand(SupportMain main, ConfigManager languageManager) {
         this.main = main;
         this.languageManager = languageManager;
     }
+
 
     public final void onCommand(User sender, String[] args) {
 
@@ -290,5 +291,27 @@ public class SupportCommand {
         }
         sender.getSupport().removePlayer(target);
         target.sendMessage(languageManager.getMessage("removed-support"));
+    }
+    public void join(User sender, String[] args) {
+        if (checkPermission(sender, "support.join")) return;
+
+        if (sender.getSupport()!=null) {
+            sender.sendMessage(languageManager.getMessage("already-in-ticket"));
+            return;
+        }
+        if (sender.getRequest()!=null) {
+            sender.sendMessage(languageManager.getMessage("already-in-queue"));
+            return;
+        }
+        User target = main.getUserManager().getUser(args[0]);
+        if (target==null) {
+            sender.sendMessage(languageManager.getMessage("not-online"));
+            return;
+        }
+        if (target.getSupport()==null) {
+            sender.sendMessage(languageManager.getMessage("player-not-in-ticket"));
+            return;
+        }
+        target.getSupport().addPlayer(sender);
     }
 }
