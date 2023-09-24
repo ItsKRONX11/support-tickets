@@ -1,9 +1,9 @@
 package me.itskronx11.supportchat.platform.spigot.language;
 
-import me.itskronx11.supportchat.language.ConfigManager;
 import me.itskronx11.supportchat.SupportMain;
-import me.itskronx11.supportchat.user.User;
+import me.itskronx11.supportchat.language.ConfigManager;
 import me.itskronx11.supportchat.support.Request;
+import me.itskronx11.supportchat.user.User;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
@@ -11,6 +11,8 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -126,7 +128,48 @@ private String[] usage;
 
         config = YamlConfiguration.loadConfiguration(file);
 
+        YamlConfiguration defaultConfig = YamlConfiguration.loadConfiguration(new InputStreamReader(main.getResourceStream("language/lang_en.yml")));
+
+        for (String key : defaultConfig.getKeys(true)) {
+            if (!config.contains(key)) {
+                config.set(key, defaultConfig.get(key));
+            }
+        }
+        try {
+            config.save(file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        FileConfiguration defaultMainConfig = YamlConfiguration.loadConfiguration(new InputStreamReader(main.getResourceStream("config.yml")));
+        FileConfiguration mainConfig = (FileConfiguration) main.getConfig();
+
+        for (String key : defaultMainConfig.getKeys(true)) {
+            if (!mainConfig.contains(key)) {
+                mainConfig.set(key, defaultMainConfig.get(key));
+            }
+        }
+        main.setConfig(mainConfig);
+        try {
+            mainConfig.save(new File(main.getDataFolder(), "config.yml"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         usage = null;
+    }
+    @Override
+    public List<String> getStringList(String path) {
+        return config.getStringList(path);
+    }
+
+    @Override
+    public boolean usingTitles() {
+        return ((FileConfiguration) main.getConfig()).getBoolean("send-titles");
+    }
+    @Override
+    public int getInt(String path) {
+        return config.getInt(path);
     }
 
 }

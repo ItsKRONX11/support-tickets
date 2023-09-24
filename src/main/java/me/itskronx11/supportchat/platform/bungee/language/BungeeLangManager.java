@@ -143,6 +143,37 @@ public class BungeeLangManager implements ConfigManager {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        Configuration defaultConfig = ConfigurationProvider.getProvider(YamlConfiguration.class).load(main.getResourceStream("language/"+lang+".yml"));
+        checkAndSave(defaultConfig, config, languageFile);
+
+        checkAndSave(ConfigurationProvider.getProvider(YamlConfiguration.class).load(main.getResourceStream("config.yml")),(Configuration) main.getConfig(), new File(main.getDataFolder(), "config.yml"));
         usage = null;
+    }
+    private void checkAndSave(Configuration defaultConfig, Configuration config, File file) {
+        for (String key : defaultConfig.getKeys()) {
+            if (!config.contains(key)) {
+                config.set(key, defaultConfig.get(key));
+            }
+        }
+        try {
+            ConfigurationProvider.getProvider(YamlConfiguration.class).save(config, file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    @Override
+    public List<String> getStringList(String path) {
+        return config.getStringList(path);
+    }
+
+    @Override
+    public int getInt(String path) {
+        return config.getInt(path);
+    }
+
+    @Override
+    public boolean usingTitles() {
+        return ((Configuration) main.getConfig()).getBoolean("send-titles");
     }
 }

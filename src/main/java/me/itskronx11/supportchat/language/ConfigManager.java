@@ -27,5 +27,8 @@ public interface ConfigManager {
     List<TextComponent> getSupportAlert(User sender, String reason);
     String[] getRequestHover(Request request);
     void reload();
+    boolean usingTitles();
+    List<String> getStringList(String path);
+    int getInt(String path);
 
 }

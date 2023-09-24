@@ -21,5 +21,5 @@ public interface User {
     String getName();
     UUID getUniqueId();
     boolean hasPermission(String permission);
-
+    void sendTitle(String title, String subTitle, int fadeIn, int fadeOut, int stay);
 }

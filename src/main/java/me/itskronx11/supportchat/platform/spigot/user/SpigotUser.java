@@ -1,8 +1,9 @@
 package me.itskronx11.supportchat.platform.spigot.user;
 
-import me.itskronx11.supportchat.user.User;
+import com.cryptomorin.xseries.messages.Titles;
 import me.itskronx11.supportchat.support.Request;
 import me.itskronx11.supportchat.support.Support;
+import me.itskronx11.supportchat.user.User;
 import net.md_5.bungee.api.chat.BaseComponent;
 import org.bukkit.Bukkit;
 
@@ -91,4 +92,17 @@ public class SpigotUser implements User {
     public boolean hasPermission(String permission) {
         return Bukkit.getPlayer(uuid).hasPermission(permission);
     }
+
+    @Override
+    public void sendTitle(String title, String subTitle, int fadeIn, int fadeOut, int stay) {
+        Titles.sendTitle(
+                Bukkit.getPlayer(uuid),
+                fadeIn,
+                stay,
+                fadeOut,
+                title,
+                subTitle);
+    }
+
+
 }

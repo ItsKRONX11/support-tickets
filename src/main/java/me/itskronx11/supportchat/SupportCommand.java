@@ -6,9 +6,12 @@ import me.itskronx11.supportchat.support.Support;
 import me.itskronx11.supportchat.user.User;
 import net.md_5.bungee.api.chat.*;
 
+import java.util.List;
+
 public class SupportCommand {
     private final SupportMain main;
     private final ConfigManager languageManager;
+
     public SupportCommand(SupportMain main, ConfigManager languageManager) {
         this.main = main;
         this.languageManager = languageManager;
@@ -16,7 +19,6 @@ public class SupportCommand {
 
 
     public final void onCommand(User sender, String[] args) {
-
         if (!sender.hasPermission("support.use")) {
             sender.sendMessage(languageManager.getMessage("no-permission"));
             return;
@@ -40,6 +42,10 @@ public class SupportCommand {
 
             case "request":
                 request(sender, args);
+                return;
+
+            case "join":
+                join(sender, args);
                 return;
 
             case "leave":
@@ -122,6 +128,17 @@ public class SupportCommand {
             if (staff.hasPermission("support.notifications") && staff.isAlertsEnabled()) {
                 for (TextComponent component : languageManager.getSupportAlert(sender, reason)) {
                     staff.sendMessage(component);
+                }
+                System.out.println(languageManager.usingTitles());
+                if (languageManager.usingTitles()) {
+                    List<String> titleContent = languageManager.getStringList("support-title.content");
+                    staff.sendTitle(
+                            languageManager.format(sender, titleContent.get(0)),
+                            languageManager.format(sender, titleContent.get(1)),
+                            languageManager.getInt("support-title.duration.fade-in"),
+                            languageManager.getInt("support-title.duration.fade-out"),
+                            languageManager.getInt("support-title.duration.stay")
+                    );
                 }
             }
         }

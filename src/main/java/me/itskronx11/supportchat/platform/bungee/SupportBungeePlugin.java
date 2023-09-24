@@ -76,6 +76,16 @@ public class SupportBungeePlugin extends Plugin implements SupportMain {
         return languageManager;
     }
 
+    @Override
+    public InputStream getResourceStream(String path) {
+        return getResourceAsStream(path);
+    }
+
+    @Override
+    public void setConfig(Object o) {
+        this.config = (Configuration) o; reloadConfig();
+    }
+
     public void saveResource(String resourcePath) {
         try {
             File file = new File(getDataFolder(), resourcePath);
