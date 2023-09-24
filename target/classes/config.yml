@@ -1,0 +1,6 @@
+# SupportTickets plugin made by ItsKRONX11.
+
+# %prefix%
+prefix: '&2[&aTickets&2]'
+
+language: 'lang_en' # The name of the language file

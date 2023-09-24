@@ -1,0 +1,89 @@
+no-permission: '%prefix% &cNu ai permisiune!'
+
+config-reload: '%prefix% &aConfiguratia a fost reincarcata.'
+
+invalid-args: '%prefix% &cArgumente nevalide. Scrie /support help pentru ajutor.'
+
+unknown-command: '%prefix% &cComanda necunoscuta. Scrie /support help pentru ajutor.'
+
+support-chat: '%prefix% &2%name%: &7%message%'
+
+no-players-waiting: '%prefix% &cNiciun jucator asteapta suport.'
+
+support-auto-close: '%prefix% &cTicket-ul a fost inchis deoarece au iesit toti.'
+
+player-helped: '%prefix% &2%player% &7este acum ajutat de &2%staff%&7.'
+
+cannot-self: '%prefix% &cNu poti interactiona cu tine insusi!'
+
+cannot-remove-elsewhere: '%prefix% &cNu poti scoate un jucator dintr-un ticket in care nu esti.'
+
+player-not-in-ticket: '%prefix% &cJucatorul nu este in niciun ticket!'
+
+player-already-in-ticket: '%prefix% &cJucatorul este deja intr-un ticket.'
+
+player-not-in-queue: '%prefix% &cJucatorul nu asteapta suport.'
+
+already-in-ticket: '%prefix% &cEsti deja intr-un ticket de suport.'
+
+already-in-queue: '%prefix% &cAstepti deja suport!'
+
+not-in-ticket: '%prefix% &cNu esti intr-un ticket de suport.'
+
+not-in-queue: '%prefix% &cNu esti in asteptare.'
+
+request-sent: '%prefix% &aCererea ta a fost trimisa.'
+
+queue-left: '%prefix% &cAi parasit coada de asteptare.'
+
+left-support: '%prefix% &cAi parasit ticket-ul de suport.'
+
+player-join-support: '%prefix% &2%name% &7a intrat in ticket!'
+
+player-left-support: '%prefix% &c%name% &7 a iesit din ticket!'
+
+support-close: '%prefix% &7Ticket-ul a fost inchis de catre &2%name%&7.'
+
+not-online: '%prefix% &cJucatorul nu este online.'
+
+removed-support: '%prefix% &7Ai fost scos din ticket de catre &2%name%&7.'
+
+added-support: '%prefix% &7Ai fost adaugat in ticket de catre &2%name%&7.'
+
+enabled-support-chat: '%prefix% &aAi schimbat pe chat-ul ticket-ului.'
+
+disabled-support-chat: '%prefix% &aAi schimbat pe chat-ul public.'
+
+enabled-alerts: '%prefix% &aAcum primesti notificari de staff.'
+
+disabled-alerts: '%prefix% &cNu mai primesti notificari de staff.'
+
+helped-staff: '%prefix% &7Acum ajuti pe &2%name%&7.'
+
+helped-player: '%prefix% &7Acum esti ajutat de &2.%name%&7.'
+
+support-list-header: '%prefix% &2Jucatori in asteptare: '
+support-list: ' &8- &2%name% &7- &a&nClick pentru a accepta'
+
+usage:
+  - '%prefix% &aComenzile de suport:'
+  - ' &2/support help &8- &7Arata acest mesaj de ajutor'
+  - ' &2/support reload &8- &7Reincarca configuratia'
+  - ' &2/support request <reason> &8- &7Trimite o cerere de ajutor'
+  - ' &2/support leave &8- &7Paraseste ticket-ul'
+  - ' &2/support list &8- &7Afiseaza jucatorii in asteptare'
+  - ' &2/support chat <message> &8- &7Trimite un mesaj in ticket-ul tau'
+  - ' &2/support togglechat &8- &7Schimba optiunea de chat'
+  - ' &2/support togglealerts &8- &7-Opreste/Porneste notificarile de staff'
+  - ' &2/support add <player> &8- &7Adauga un jucator in ticket-ul tau'
+  - ' &2/support remove <player> &8- &7Scoate un jucator din ticket-ul tau'
+
+support-alert:
+  - '%prefix% &2%name% &7are nevoie de ajutor'
+  - '%prefix% &Motiv: &e%reason%'
+  - '%prefix% *&a&nClick pentru a ajuta*' # To make text clickable, add '*' before and after
+
+request-hover:
+  - '&eMotiv: &6%reason%'
+  - '&eTimp: &6%time%'
+  - '&aClick pentru a accepta'
