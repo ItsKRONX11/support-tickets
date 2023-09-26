@@ -120,7 +120,7 @@ public class SupportCommand {
             sender.sendMessage(languageManager.getMessage("already-in-ticket"));
             return;
         }
-        String reason = languageManager.createArgs(1, args);
+        String reason = ConfigManager.createArgs(1, args);
         sender.setRequest(new Request(sender, reason, System.currentTimeMillis()));
         sender.sendMessage(languageManager.getMessage("request-sent"));
 
@@ -130,13 +130,13 @@ public class SupportCommand {
                     staff.sendMessage(component);
                 }
                 if (languageManager.usingTitles()) {
-                    List<String> titleContent = languageManager.getStringList("support-title.content");
+                    List<String> titleContent = languageManager.getConfig().getStringList("support-title.content");
                     staff.sendTitle(
                             languageManager.format(sender, titleContent.get(0)),
                             languageManager.format(sender, titleContent.get(1)),
-                            languageManager.getInt("support-title.duration.fade-in"),
-                            languageManager.getInt("support-title.duration.fade-out"),
-                            languageManager.getInt("support-title.duration.stay")
+                            languageManager.getConfig().getInt("support-title.duration.fade-in"),
+                            languageManager.getConfig().getInt("support-title.duration.fade-out"),
+                            languageManager.getConfig().getInt("support-title.duration.stay")
                     );
                 }
             }
@@ -187,11 +187,11 @@ public class SupportCommand {
             Request request = user.getRequest();
             if (request==null) continue;
 
-            String[] hoverString = languageManager.getRequestHover(request);
+            List<String> hoverString = languageManager.getRequestHover(request);
 
-            BaseComponent[] hoverText = new TextComponent[hoverString.length];
-            for (int i = 0; i < hoverString.length; i++) {
-                hoverText[i] = new TextComponent(hoverString[i]);
+            BaseComponent[] hoverText = new TextComponent[hoverString.size()];
+            for (int i = 0; i < hoverString.size(); i++) {
+                hoverText[i] = new TextComponent(hoverString.get(i));
             }
 
             BaseComponent[] component = new ComponentBuilder(languageManager.getMessage(user,"support-list")).
@@ -253,7 +253,7 @@ public class SupportCommand {
             sender.sendMessage(languageManager.getMessage("invalid-args"));
             return;
         }
-        String message = languageManager.createArgs(1, args);
+        String message = ConfigManager.createArgs(1, args);
         support.sendMessage(languageManager.getMessage(sender, "support-chat").replaceAll("%message%",message));
     }
     public void add(User sender, String[] args) {

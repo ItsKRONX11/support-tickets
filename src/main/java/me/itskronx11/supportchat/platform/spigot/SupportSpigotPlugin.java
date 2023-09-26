@@ -2,6 +2,8 @@ package me.itskronx11.supportchat.platform.spigot;
 
 import lombok.Getter;
 import me.itskronx11.supportchat.SupportMain;
+import me.itskronx11.supportchat.language.ConfigManager;
+import me.itskronx11.supportchat.language.ConfigurationWrapper;
 import me.itskronx11.supportchat.platform.spigot.command.SpigotCommand;
 import me.itskronx11.supportchat.platform.spigot.language.SpigotLangManager;
 import me.itskronx11.supportchat.platform.spigot.listener.ChatListener;
@@ -11,19 +13,20 @@ import me.itskronx11.supportchat.platform.spigot.user.SpigotUser;
 import me.itskronx11.supportchat.user.User;
 import me.itskronx11.supportchat.user.UserManager;
 import org.bukkit.Bukkit;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 
 public final class SupportSpigotPlugin extends JavaPlugin implements SupportMain {
     @Getter
     private SpigotLangManager languageManager;
     private UserManager userManager;
-    private FileConfiguration config;
+    @Getter
+    private ConfigurationWrapper configuration;
 
     @Override
     public void onEnable() {
@@ -33,7 +36,7 @@ public final class SupportSpigotPlugin extends JavaPlugin implements SupportMain
             saveResource("language/lang_"+s+".yml", false);
         }
 
-        config = YamlConfiguration.loadConfiguration(new File("config.yml"));
+        configuration = new ConfigurationWrapper.SpigotConfig(YamlConfiguration.loadConfiguration(new File(getDataFolder(), "config.yml")));
 
         userManager = new UserManager() {
             @Override
@@ -66,16 +69,16 @@ public final class SupportSpigotPlugin extends JavaPlugin implements SupportMain
     }
 
     @Override
-    public void setConfig(Object o) {
-        this.config = (FileConfiguration) o;
-    }
-    @Override
-    public FileConfiguration getConfig() {
-        return config;
+    public void setConfig(ConfigurationWrapper o) {
+        this.configuration = o;
     }
     @Override
     public void reloadConfig() {
-        this.config = YamlConfiguration.loadConfiguration(new File(getDataFolder(),"config.yml"));
+        ConfigurationWrapper config = new ConfigurationWrapper.SpigotConfig(YamlConfiguration.loadConfiguration(new File(getDataFolder(),"config.yml")));
+        ConfigurationWrapper defaultConfig = new ConfigurationWrapper.SpigotConfig(YamlConfiguration.loadConfiguration(new InputStreamReader(getResourceStream("config.yml"))));
+
+        ConfigManager.checkAndSave(defaultConfig, config, new File(getDataFolder(), "config.yml"));
+        this.configuration = config;
     }
 
 }

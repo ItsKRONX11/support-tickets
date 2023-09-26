@@ -2,16 +2,16 @@ package me.itskronx11.supportchat.platform.bungee;
 
 import me.itskronx11.supportchat.SupportMain;
 import me.itskronx11.supportchat.language.ConfigManager;
-import me.itskronx11.supportchat.platform.bungee.language.BungeeLangManager;
-import me.itskronx11.supportchat.user.User;
-import me.itskronx11.supportchat.user.UserManager;
+import me.itskronx11.supportchat.language.ConfigurationWrapper;
 import me.itskronx11.supportchat.platform.bungee.command.BungeeCommand;
+import me.itskronx11.supportchat.platform.bungee.language.BungeeLangManager;
 import me.itskronx11.supportchat.platform.bungee.listener.ChatListener;
 import me.itskronx11.supportchat.platform.bungee.listener.JoinListener;
 import me.itskronx11.supportchat.platform.bungee.listener.QuitListener;
+import me.itskronx11.supportchat.user.User;
+import me.itskronx11.supportchat.user.UserManager;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Plugin;
-import net.md_5.bungee.config.Configuration;
 import net.md_5.bungee.config.ConfigurationProvider;
 import net.md_5.bungee.config.YamlConfiguration;
 
@@ -23,7 +23,7 @@ import java.nio.file.Files;
 public class SupportBungeePlugin extends Plugin implements SupportMain {
     private UserManager userManager;
     private ConfigManager languageManager;
-    private Configuration config;
+    private ConfigurationWrapper config;
 
     @Override
     public void onEnable() {
@@ -58,14 +58,20 @@ public class SupportBungeePlugin extends Plugin implements SupportMain {
     }
 
     @Override
-    public Object getConfig() {
+    public ConfigurationWrapper getConfiguration() {
         return config;
     }
 
     @Override
     public void reloadConfig() {
         try {
-            this.config = ConfigurationProvider.getProvider(YamlConfiguration.class).load(new File(getDataFolder(), "config.yml"));
+            ConfigurationWrapper config = new ConfigurationWrapper.BungeeConfig(ConfigurationProvider.getProvider(YamlConfiguration.class).load(new File(getDataFolder(), "config.yml")));
+            ConfigurationWrapper defaultConfig = new ConfigurationWrapper.BungeeConfig(ConfigurationProvider.getProvider(YamlConfiguration.class).load(getResourceStream("config.yml")));
+
+            ConfigManager.checkAndSave(defaultConfig, config, new File(getDataFolder(), "config.yml"));
+
+            this.config = config;
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -82,8 +88,8 @@ public class SupportBungeePlugin extends Plugin implements SupportMain {
     }
 
     @Override
-    public void setConfig(Object o) {
-        this.config = (Configuration) o; reloadConfig();
+    public void setConfig(ConfigurationWrapper config) {
+        this.config = config;
     }
 
     public void saveResource(String resourcePath) {
