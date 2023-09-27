@@ -1,5 +1,6 @@
 package me.itskronx11.supportchat.platform.bungee;
 
+import lombok.Getter;
 import me.itskronx11.supportchat.SupportMain;
 import me.itskronx11.supportchat.language.ConfigManager;
 import me.itskronx11.supportchat.language.ConfigurationWrapper;
@@ -10,6 +11,7 @@ import me.itskronx11.supportchat.platform.bungee.listener.JoinListener;
 import me.itskronx11.supportchat.platform.bungee.listener.QuitListener;
 import me.itskronx11.supportchat.user.User;
 import me.itskronx11.supportchat.user.UserManager;
+import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.config.ConfigurationProvider;
@@ -25,6 +27,8 @@ public class SupportBungeePlugin extends Plugin implements SupportMain {
     private UserManager userManager;
     private ConfigManager languageManager;
     private ConfigurationWrapper config;
+    @Getter
+    private boolean luckPerms;
 
     @Override
     public void onEnable() {
@@ -32,6 +36,8 @@ public class SupportBungeePlugin extends Plugin implements SupportMain {
         saveResource("language/lang_en.yml");
 
         reloadConfig();
+
+        this.luckPerms = ProxyServer.getInstance().getPluginManager().getPlugin("LuckPerms")!=null;
 
         languageManager = new BungeeLangManager(this);
         userManager = new UserManager() {

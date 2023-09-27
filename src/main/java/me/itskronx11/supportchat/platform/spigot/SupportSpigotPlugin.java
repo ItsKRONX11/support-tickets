@@ -28,11 +28,16 @@ public final class SupportSpigotPlugin extends JavaPlugin implements SupportMain
     private UserManager userManager;
     @Getter
     private ConfigurationWrapper configuration;
+    @Getter
+    boolean luckPerms;
 
     @Override
     public void onEnable() {
         saveDefaultConfig();
         saveResource("language/lang_en.yml", false);
+
+        this.luckPerms = Bukkit.getPluginManager().getPlugin("LuckPerms")!=null;
+        System.out.println(luckPerms);
 
         configuration = new ConfigurationWrapper.SpigotConfig(YamlConfiguration.loadConfiguration(new File(getDataFolder(), "config.yml")));
 

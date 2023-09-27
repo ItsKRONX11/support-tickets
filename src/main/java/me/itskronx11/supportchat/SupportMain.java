@@ -15,4 +15,5 @@ public interface SupportMain {
     ConfigManager getLanguageManager();
     InputStream getResourceStream(String path);
     void setConfig(ConfigurationWrapper config);
+    boolean isLuckPerms();
 }

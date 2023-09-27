@@ -50,9 +50,17 @@ public abstract class ConfigManager {
         return ChatColor.translateAlternateColorCodes('&',s).replaceAll("%prefix%", getPrefix());
     }
     public String format(User user, String s) {
-        return format(s).replaceAll("%name%", user.getName())
-                .replaceAll("%reason%", (user.getRequest()==null) ? "" : user.getRequest().getReason())
-                .replaceAll("%time%", (user.getRequest()==null) ? "" : new SimpleDateFormat("hh:mm:ss a").format(new Date(user.getRequest().getCreated())));
+        String format =  format(s).replaceAll("%name%", user.getName());
+        if (user.getRequest()!=null) {
+             format = format.replaceAll("%reason%", user.getRequest().getReason())
+                    .replaceAll("%time%",new SimpleDateFormat("hh:mm:ss a").format(new Date(user.getRequest().getCreated())));
+        }
+        if (main.isLuckPerms()) {
+            format = format.replaceAll("%lp_rank%", user.getRankDisplayName())
+                    .replaceAll("%lp_prefix%", user.getLuckPermsPrefix())
+                    .replaceAll("%lp_suffix%", user.getLuckPermsSuffix());
+        }
+        return format;
     }
     public String getPrefix() {
         return ChatColor.translateAlternateColorCodes('&', main.getConfiguration().getString("prefix"));

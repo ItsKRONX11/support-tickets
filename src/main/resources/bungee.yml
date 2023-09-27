@@ -1,4 +1,6 @@
 name: SupportTickets
 main: me.itskronx11.supportchat.platform.bungee.SupportBungeePlugin
-version: 1.0
+version: 1.4
 author: ItsKRONX11
+softDepends:
+  - LuckPerms
