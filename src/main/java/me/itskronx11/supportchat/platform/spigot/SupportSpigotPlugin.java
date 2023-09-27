@@ -37,7 +37,6 @@ public final class SupportSpigotPlugin extends JavaPlugin implements SupportMain
         saveResource("language/lang_en.yml", false);
 
         this.luckPerms = Bukkit.getPluginManager().getPlugin("LuckPerms")!=null;
-        System.out.println(luckPerms);
 
         configuration = new ConfigurationWrapper.SpigotConfig(YamlConfiguration.loadConfiguration(new File(getDataFolder(), "config.yml")));
 

@@ -244,7 +244,18 @@ public class SupportCommand {
 
         for (User user : main.getUserManager().getUsers()) {
             if (user.hasPermission("support.notifications") && user.isAlertsEnabled()) {
-                user.sendMessage(languageManager.getMessage("player-helped").replaceAll("%player%", target.getName()).replaceAll("%staff%", sender.getName()));
+                String message = languageManager.getMessage("player-helped").replaceAll("%player%", target.getName()).replaceAll("%staff%", sender.getName());
+
+                if (main.isLuckPerms()) {
+                    message = message.replaceAll("%staff_rank%", sender.getRankDisplayName())
+                            .replaceAll("%staff_prefix%", sender.getLuckPermsPrefix())
+                            .replaceAll("%staff_suffix%", sender.getLuckPermsSuffix())
+                            .replaceAll("%player_rank%", target.getRankDisplayName())
+                            .replaceAll("%player_prefix%", target.getLuckPermsPrefix())
+                            .replaceAll("%player_suffix%", target.getLuckPermsSuffix());
+                }
+
+                user.sendMessage(message);
             }
         }
     }
