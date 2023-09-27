@@ -6,7 +6,9 @@ import me.itskronx11.supportchat.support.Support;
 import me.itskronx11.supportchat.user.User;
 import net.md_5.bungee.api.chat.*;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class SupportCommand {
     private final SupportMain main;
@@ -17,7 +19,12 @@ public class SupportCommand {
         this.languageManager = languageManager;
     }
 
+    public List<String> tabComplete(User sender, String[] args) {
 
+        String[] commands = new String[]{"help", "reload", "request", "join", "leave", "list", "chat", "togglechat", "togglealerts", "add", "remove"};
+
+        return Arrays.stream(commands).filter(cmd -> sender.hasPermission("support."+cmd)).filter(cmd -> cmd.toLowerCase().startsWith(args[0].toLowerCase())).collect(Collectors.toList());
+    }
     public final void onCommand(User sender, String[] args) {
         if (!sender.hasPermission("support.use")) {
             sender.sendMessage(languageManager.getMessage("no-permission"));

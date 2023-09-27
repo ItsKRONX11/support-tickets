@@ -5,6 +5,7 @@ import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.TextComponent;
 
+import java.util.Collection;
 import java.util.UUID;
 
 public class BungeeUser extends User {
@@ -36,6 +37,11 @@ public class BungeeUser extends User {
     @Override
     public boolean hasPermission(String permission) {
         return ProxyServer.getInstance().getPlayer(getUniqueId()).hasPermission(permission);
+    }
+
+    @Override
+    public Collection<String> getPermissions() {
+        return ProxyServer.getInstance().getPlayer(getUniqueId()).getPermissions();
     }
 
     @Override

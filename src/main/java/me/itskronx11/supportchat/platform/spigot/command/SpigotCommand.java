@@ -7,9 +7,12 @@ import me.itskronx11.supportchat.user.User;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
-public final class SpigotCommand extends SupportCommand implements CommandExecutor {
+import java.util.List;
+
+public final class SpigotCommand extends SupportCommand implements CommandExecutor, TabCompleter {
     private final SupportMain main;
     private final ConfigManager languageManager;
 
@@ -32,5 +35,12 @@ public final class SpigotCommand extends SupportCommand implements CommandExecut
         super.onCommand(sender, args);
 
         return true;
+    }
+
+    @Override
+    public List<String> onTabComplete(CommandSender commandSender, Command command, String s, String[] args) {
+        if (!(commandSender instanceof Player) || args.length!=1) return null;
+
+        return super.tabComplete( main.getUserManager().getUser( ((Player) commandSender).getUniqueId() ),args );
     }
 }

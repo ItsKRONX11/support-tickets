@@ -6,6 +6,9 @@ import me.itskronx11.supportchat.user.User;
 import net.md_5.bungee.api.chat.BaseComponent;
 import org.bukkit.Bukkit;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
 
 public class SpigotUser extends User {
@@ -38,6 +41,13 @@ public class SpigotUser extends User {
     }
 
     @Override
+    public Collection<String> getPermissions() {
+        List<String> permissions = new ArrayList<>();
+        Bukkit.getPlayer(uuid).getEffectivePermissions().forEach(effectivePermission -> permissions.add(effectivePermission.getPermission()));
+        return permissions;
+    }
+
+    @Override
     public void sendTitle(String title, String subTitle, int fadeIn, int fadeOut, int stay) {
         Titles.sendTitle(
                 Bukkit.getPlayer(uuid),
@@ -47,7 +57,5 @@ public class SpigotUser extends User {
                 title,
                 subTitle);
     }
-
-
 
 }
