@@ -33,6 +33,11 @@ public abstract class ConfigManager {
         return builder.toString();
     }
     public static void checkAndSave(ConfigurationWrapper defaultConfig, ConfigurationWrapper config, File file) {
+        for (String key : config.getKeys()) {
+            if (!defaultConfig.contains(key)) {
+                config.set(key, null);
+            }
+        }
         for (String key : defaultConfig.getKeys()) {
             if (!config.contains(key)) {
                 config.set(key, defaultConfig.get(key));
@@ -58,9 +63,12 @@ public abstract class ConfigManager {
     public String getMessage(User user, String path) {
         return format(user, config.getString(path));
     }
-    public List<String> getUsage() {
-        List<String> usage = config.getStringList("usage");
-        usage.replaceAll(this::format);
+    public List<String> getUsage(User user) {
+        List<String> usage = new ArrayList<>();
+
+        for (String key : config.getSubKeys("command-usage")) {
+            if (user.hasPermission("support."+key) || key.contains("header")) usage.add(getMessage(user, "command-usage."+key));
+        }
         return usage;
     }
     public List<TextComponent> getSupportAlert(User sender, String reason) {

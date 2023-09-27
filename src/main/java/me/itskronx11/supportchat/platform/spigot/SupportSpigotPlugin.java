@@ -12,6 +12,7 @@ import me.itskronx11.supportchat.platform.spigot.listener.QuitListener;
 import me.itskronx11.supportchat.platform.spigot.user.SpigotUser;
 import me.itskronx11.supportchat.user.User;
 import me.itskronx11.supportchat.user.UserManager;
+import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -31,10 +32,7 @@ public final class SupportSpigotPlugin extends JavaPlugin implements SupportMain
     @Override
     public void onEnable() {
         saveDefaultConfig();
-
-        for (String s : new String[]{"en","ro", "es"}) {
-            saveResource("language/lang_"+s+".yml", false);
-        }
+        saveResource("language/lang_en.yml", false);
 
         configuration = new ConfigurationWrapper.SpigotConfig(YamlConfiguration.loadConfiguration(new File(getDataFolder(), "config.yml")));
 
@@ -57,6 +55,13 @@ public final class SupportSpigotPlugin extends JavaPlugin implements SupportMain
         Bukkit.getPluginManager().registerEvents(new JoinListener(this), this);
 
         Bukkit.getOnlinePlayers().forEach(player -> userManager.addUser(new SpigotUser(player.getUniqueId())));
+
+        if (configuration.getBoolean("bstats")) {
+            new Metrics(this, 19904);
+        } else {
+            getLogger().warning("Not using bStats; I would really appreciate it if you would set bstats to true in the config.yml, it's quite a big motivation for me, seeing that more and more servers are using my plugin.");
+        }
+
     }
     @Override
     public UserManager getUserManager() {

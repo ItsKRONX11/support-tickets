@@ -19,6 +19,7 @@ public interface ConfigurationWrapper {
     int getInt(String path);
     void save(File file);
     Collection<String> getKeys();
+    Collection<String> getSubKeys(String path);
     boolean contains(String path);
 
 
@@ -43,6 +44,12 @@ public interface ConfigurationWrapper {
         public boolean getBoolean(String path) {
             return config.getBoolean(path);
         }
+
+        @Override
+        public Collection<String> getSubKeys(String path) {
+            return config.getSection(path).getKeys();
+        }
+
         @Override
         public List<String> getStringList(String path) {
             return config.getStringList(path);
@@ -114,6 +121,11 @@ public interface ConfigurationWrapper {
         @Override
         public Collection<String> getKeys() {
             return config.getKeys(true);
+        }
+
+        @Override
+        public Collection<String> getSubKeys(String path) {
+            return config.getConfigurationSection(path).getKeys(true);
         }
 
         @Override

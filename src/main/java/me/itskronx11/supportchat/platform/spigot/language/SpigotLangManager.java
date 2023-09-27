@@ -36,13 +36,7 @@ public final class SpigotLangManager extends ConfigManager {
 
         YamlConfiguration defaultConfig = YamlConfiguration.loadConfiguration(new InputStreamReader(main.getResourceStream("language/lang_en.yml")));
 
-        for (String key : defaultConfig.getKeys(true)) {
-            if (!config.contains(key)) {
-                config.set(key, defaultConfig.get(key));
-            }
-        }
-
-        config.save(file);
+        ConfigManager.checkAndSave(new ConfigurationWrapper.SpigotConfig(defaultConfig), config, file);
     }
 
 }

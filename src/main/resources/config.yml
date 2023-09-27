@@ -5,4 +5,6 @@ prefix: '&2[&aTickets&2]'
 
 language: 'lang_en' # The name of the language file
 
-send-titles: false
+send-titles: true
+
+bstats: true

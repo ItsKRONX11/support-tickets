@@ -14,6 +14,7 @@ import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.config.ConfigurationProvider;
 import net.md_5.bungee.config.YamlConfiguration;
+import org.bstats.bungeecord.Metrics;
 
 import java.io.File;
 import java.io.IOException;
@@ -28,10 +29,8 @@ public class SupportBungeePlugin extends Plugin implements SupportMain {
     @Override
     public void onEnable() {
         saveResource("config.yml");
+        saveResource("language/lang_en.yml");
 
-        for (String s : new String[]{"en", "ro", "es"}) {
-            saveResource("language/lang_"+s+".yml");
-        }
         reloadConfig();
 
         languageManager = new BungeeLangManager(this);
@@ -50,6 +49,12 @@ public class SupportBungeePlugin extends Plugin implements SupportMain {
         getProxy().getPluginManager().registerListener(this, new JoinListener(this));
 
         getProxy().getPluginManager().registerCommand(this, new BungeeCommand(this, languageManager, "support"));
+
+        if (config.getBoolean("bstats")) {
+            new Metrics(this, 19905);
+        } else {
+            getLogger().warning("Not using bStats; I would really appreciate it if you would set bstats to true in the config.yml, it's quite a big motivation for me, seeing that more and more servers are using my plugin.");
+        }
     }
 
     @Override

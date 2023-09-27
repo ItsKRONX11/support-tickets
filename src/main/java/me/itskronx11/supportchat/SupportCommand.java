@@ -25,7 +25,7 @@ public class SupportCommand {
         }
 
         if (args.length == 0) {
-            for (String o : languageManager.getUsage()) {
+            for (String o : languageManager.getUsage(sender)) {
                 sender.sendMessage(o);
             }
             return;
@@ -101,7 +101,7 @@ public class SupportCommand {
     }
 
     public void help(User sender) {
-        for (String string : languageManager.getUsage()) {
+        for (String string : languageManager.getUsage(sender)) {
             sender.sendMessage(string);
         }
     }
@@ -109,7 +109,7 @@ public class SupportCommand {
         if (checkPermission(sender, "support.request")) return;
 
         if (!(args.length>=2)) {
-            sender.sendMessage(languageManager.getMessage("invalid-args"));
+            sender.sendMessage(languageManager.getMessage("command-usage.request"));
             return;
         }
         if (sender.getRequest()!=null) {
@@ -158,7 +158,7 @@ public class SupportCommand {
         sender.sendMessage(languageManager.getMessage("not-in-queue"));
     }
     public void toggleChat(User sender) {
-        if (checkPermission(sender, "support.toggle.chat")) return;
+        if (checkPermission(sender, "support.togglechat")) return;
 
         if (sender.isChatEnabled()) {
             sender.setChatEnabled(false);
@@ -169,7 +169,7 @@ public class SupportCommand {
         }
     }
     public void toggleAlerts(User sender) {
-        if (checkPermission(sender, "support.toggle.alerts")) return;
+        if (checkPermission(sender, "support.togglealerts")) return;
 
         if (sender.isAlertsEnabled()) {
             sender.setAlertsEnabled(false);
@@ -212,7 +212,7 @@ public class SupportCommand {
             return;
         }
         if (args.length!=2) {
-            sender.sendMessage(languageManager.getMessage("invalid-args"));
+            sender.sendMessage(languageManager.getMessage("command-usage.accept"));
             return;
         }
         User target = main.getUserManager().getUser(args[1]);
@@ -250,7 +250,7 @@ public class SupportCommand {
             return;
         }
         if (!(args.length>=2)) {
-            sender.sendMessage(languageManager.getMessage("invalid-args"));
+            sender.sendMessage(languageManager.getMessage("command-usage.chat"));
             return;
         }
         String message = ConfigManager.createArgs(1, args);
@@ -265,7 +265,7 @@ public class SupportCommand {
             return;
         }
         if (!(args.length>=2)) {
-            sender.sendMessage(languageManager.getMessage("invalid-args"));
+            sender.sendMessage(languageManager.getMessage("command-usage.add"));
             return;
         }
         User target = main.getUserManager().getUser(args[1]);
@@ -289,7 +289,7 @@ public class SupportCommand {
             return;
         }
         if (!(args.length>=2)) {
-            sender.sendMessage(languageManager.getMessage("invalid-args"));
+            sender.sendMessage(languageManager.getMessage("command-usage.remove"));
             return;
         }
         User target = main.getUserManager().getUser(args[1]);
