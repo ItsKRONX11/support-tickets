@@ -9,6 +9,8 @@ import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
 import net.md_5.bungee.api.plugin.TabExecutor;
 
+import java.util.ArrayList;
+
 public class BungeeCommand extends Command implements TabExecutor {
     private final SupportMain main;
     private final ConfigManager languageManager;
@@ -35,7 +37,7 @@ public class BungeeCommand extends Command implements TabExecutor {
 
     @Override
     public Iterable<String> onTabComplete(CommandSender commandSender, String[] args) {
-        if (!(commandSender instanceof ProxiedPlayer) || args.length!=1) return null;
+        if (!(commandSender instanceof ProxiedPlayer) || args.length!=1) return new ArrayList<>();
         return command.tabComplete(main.getUserManager().getUser( ((ProxiedPlayer) commandSender).getUniqueId() ), args);
     }
 }
