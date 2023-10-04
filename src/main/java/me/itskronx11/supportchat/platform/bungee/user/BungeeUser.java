@@ -1,17 +1,15 @@
 package me.itskronx11.supportchat.platform.bungee.user;
 
 import me.itskronx11.supportchat.user.User;
+import me.itskronx11.supportchat.user.UserData;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.TextComponent;
 
-import java.util.Collection;
-import java.util.UUID;
-
 public class BungeeUser extends User {
 
-    public BungeeUser(UUID uniqueId) {
-        super(uniqueId);
+    public BungeeUser(UserData data) {
+        super(data);
     }
 
     @Override
@@ -30,18 +28,8 @@ public class BungeeUser extends User {
     }
 
     @Override
-    public String getName() {
-        return ProxyServer.getInstance().getPlayer(getUniqueId()).getName();
-    }
-
-    @Override
     public boolean hasPermission(String permission) {
         return ProxyServer.getInstance().getPlayer(getUniqueId()).hasPermission(permission);
-    }
-
-    @Override
-    public Collection<String> getPermissions() {
-        return ProxyServer.getInstance().getPlayer(getUniqueId()).getPermissions();
     }
 
     @Override

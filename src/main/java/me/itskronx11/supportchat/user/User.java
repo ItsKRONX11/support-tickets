@@ -9,12 +9,13 @@ import net.luckperms.api.model.group.Group;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.BaseComponent;
 
-import java.util.Collection;
 import java.util.UUID;
 
 public abstract class User {
     @Getter
     private final UUID uniqueId;
+    @Getter
+    private final String name;
     @Getter
     @Setter
     private Support support;
@@ -27,10 +28,15 @@ public abstract class User {
     @Getter
     @Setter
     private boolean alertsEnabled;
-    public User(UUID uniqueId) {
-        this.uniqueId = uniqueId;
-        this.chatEnabled = false;
-        this.alertsEnabled = true;
+    @Getter
+    @Setter
+    private int totalSupports;
+    public User(UserData data) {
+        this.uniqueId = data.getUuid();
+        this.chatEnabled = data.isChat();
+        this.alertsEnabled = data.isAlerts();
+        this.totalSupports = data.getTotalSupports();
+        this.name = data.getName();
     }
     public String getRankDisplayName() {
         String groupName = LuckPermsProvider.get().getUserManager().getUser(uniqueId).getCachedData().getMetaData().getPrimaryGroup();
@@ -40,23 +46,18 @@ public abstract class User {
     }
     public String getLuckPermsPrefix() {
         String prefix =  LuckPermsProvider.get().getUserManager().getUser(uniqueId).getCachedData().getMetaData().getPrefix();
-        if (prefix==null) {
-            return "";
-        }
-        return ChatColor.translateAlternateColorCodes('&',prefix);
+        return (prefix==null) ?"":ChatColor.translateAlternateColorCodes('&',prefix);
     }
     public String getLuckPermsSuffix() {
         String suffix = LuckPermsProvider.get().getUserManager().getUser(uniqueId).getCachedData().getMetaData().getSuffix();
-        if (suffix==null) {
-            return "";
-        }
-        return ChatColor.translateAlternateColorCodes('&',suffix);
+        return (suffix==null) ?"": ChatColor.translateAlternateColorCodes('&',suffix);
     }
     public abstract void sendMessage(String message);
     public abstract void sendMessage(BaseComponent component);
     public abstract void sendMessage(BaseComponent[] components);
     public abstract boolean hasPermission(String permission);
-    public abstract Collection<String> getPermissions();
     public abstract void sendTitle(String title, String subTitle, int fadeIn, int fadeOut, int stay);
-    public abstract String getName();
+    public UserData getSaveData() {
+        return new UserData(uniqueId, name, chatEnabled, alertsEnabled, totalSupports);
+    }
 }

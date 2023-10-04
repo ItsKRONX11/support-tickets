@@ -6,6 +6,7 @@ import me.itskronx11.supportchat.user.UserManager;
 
 import java.io.File;
 import java.io.InputStream;
+import java.util.UUID;
 
 public interface SupportMain {
     UserManager getUserManager();
@@ -16,4 +17,5 @@ public interface SupportMain {
     InputStream getResourceStream(String path);
     void setConfig(ConfigurationWrapper config);
     boolean isLuckPerms();
+    void loadUser(UUID uuid, String name);
 }

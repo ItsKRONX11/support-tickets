@@ -7,3 +7,5 @@ commands:
   support:
     description: Main command for the SupportTickets plugin.
     aliases: [sup]
+softdepend:
+  - LuckPerms

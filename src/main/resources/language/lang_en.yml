@@ -70,6 +70,7 @@ command-usage:
   help: ' &2/support help &8- &7Show this help message'
   reload: ' &2/support reload &8- &7Reload the plugin config'
   request: ' &2/support request <reason> &8- &7Request support'
+  close: ' &2/support close &8- &7Close the ticket'
   join: ' &2/support join <player> &8- &7Join a player''s ticket'
   leave: ' &2/support leave &8- &7Leave the ticket/queue'
   list: ' &2/support list &8- &7List waiting players'

@@ -12,6 +12,7 @@ import java.util.List;
 
 public interface ConfigurationWrapper {
     Object get(String path);
+    Object getSub(String parent, String child);
     void set(String path, Object value);
     String getString(String path);
     boolean getBoolean(String path);
@@ -21,6 +22,8 @@ public interface ConfigurationWrapper {
     Collection<String> getKeys();
     Collection<String> getSubKeys(String path);
     boolean contains(String path);
+    void setSubKey(String parentPath, String childPath, Object value);
+    boolean containsSubKey(String parent, String child);
 
 
     class BungeeConfig implements ConfigurationWrapper {
@@ -32,6 +35,12 @@ public interface ConfigurationWrapper {
         public Object get(String path) {
             return config.get(path);
         }
+
+        @Override
+        public Object getSub(String parent, String child) {
+            return config.getSection(parent).get(child);
+        }
+
         @Override
         public void set(String path, Object value) {
             config.set(path, value);
@@ -77,6 +86,16 @@ public interface ConfigurationWrapper {
         public boolean contains(String path) {
             return config.contains(path);
         }
+
+        @Override
+        public void setSubKey(String parentPath, String childPath, Object value) {
+            config.getSection(parentPath).set(childPath, value);
+        }
+
+        @Override
+        public boolean containsSubKey(String parent, String child) {
+            return this.config.getSection(parent).contains(child);
+        }
     }
     class SpigotConfig implements ConfigurationWrapper {
         private final FileConfiguration config;
@@ -87,6 +106,12 @@ public interface ConfigurationWrapper {
         public Object get(String path) {
             return config.get(path);
         }
+
+        @Override
+        public Object getSub(String parent, String child) {
+            return config.getConfigurationSection(parent).get(child);
+        }
+
         @Override
         public void set(String path, Object value) {
             config.set(path, value);
@@ -117,7 +142,6 @@ public interface ConfigurationWrapper {
                 e.printStackTrace();
             }
         }
-
         @Override
         public Collection<String> getKeys() {
             return config.getKeys(true);
@@ -132,5 +156,16 @@ public interface ConfigurationWrapper {
         public boolean contains(String path) {
             return config.contains(path);
         }
+
+        @Override
+        public void setSubKey(String parentPath, String childPath, Object value) {
+            config.getConfigurationSection(parentPath).set(childPath, value);
+        }
+
+        @Override
+        public boolean containsSubKey(String parent, String child) {
+            return config.getConfigurationSection(parent).contains(child);
+        }
+
     }
 }

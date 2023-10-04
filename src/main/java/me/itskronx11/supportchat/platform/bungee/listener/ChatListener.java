@@ -15,7 +15,9 @@ public class ChatListener implements Listener {
     }
 
     @EventHandler
-    public void onChat(ChatEvent e) {
+    public void onChat(final ChatEvent e) {
+        if (e.getMessage().startsWith("/")) return;
+
         User user = main.getUserManager().getUser( ((ProxiedPlayer) e.getSender()).getUniqueId());
         Support support = user.getSupport();
 

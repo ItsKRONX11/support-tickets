@@ -9,7 +9,9 @@ import me.itskronx11.supportchat.platform.bungee.language.BungeeLangManager;
 import me.itskronx11.supportchat.platform.bungee.listener.ChatListener;
 import me.itskronx11.supportchat.platform.bungee.listener.JoinListener;
 import me.itskronx11.supportchat.platform.bungee.listener.QuitListener;
+import me.itskronx11.supportchat.platform.bungee.user.BungeeUser;
 import me.itskronx11.supportchat.user.User;
+import me.itskronx11.supportchat.user.UserData;
 import me.itskronx11.supportchat.user.UserManager;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
@@ -22,6 +24,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
+import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 public class SupportBungeePlugin extends Plugin implements SupportMain {
     private UserManager userManager;
@@ -31,30 +35,35 @@ public class SupportBungeePlugin extends Plugin implements SupportMain {
     private boolean luckPerms;
 
     @Override
+    public void onDisable() {
+        userManager.saveAll();
+    }
+    @Override
     public void onEnable() {
         saveResource("config.yml");
         saveResource("language/lang_en.yml");
+
+        File userDataFolder = new File(getDataFolder(), "userdata");
+        if (!userDataFolder.exists()) userDataFolder.mkdirs();
 
         reloadConfig();
 
         this.luckPerms = ProxyServer.getInstance().getPluginManager().getPlugin("LuckPerms")!=null;
 
         languageManager = new BungeeLangManager(this);
-        userManager = new UserManager() {
+        userManager = new UserManager(this) {
             @Override
             public User getUser(String name) {
                 ProxiedPlayer player = getProxy().getPlayer(name);
                 if (player==null) return null;
-
                 return getUser(player.getUniqueId());
             }
         };
-
-        getProxy().getPluginManager().registerListener(this, new ChatListener(this));
-        getProxy().getPluginManager().registerListener(this, new QuitListener(this));
-        getProxy().getPluginManager().registerListener(this, new JoinListener(this));
+        registerEvents();
 
         getProxy().getPluginManager().registerCommand(this, new BungeeCommand(this, languageManager, "support"));
+
+        getProxy().getScheduler().schedule(this, () -> userManager.saveAll(), 5, 5, TimeUnit.MINUTES);
 
         if (config.getBoolean("bstats")) {
             new Metrics(this, 19905);
@@ -62,7 +71,6 @@ public class SupportBungeePlugin extends Plugin implements SupportMain {
             getLogger().warning("Not using bStats; I would really appreciate it if you would set bstats to true in the config.yml, it's quite a big motivation for me, seeing that more and more servers are using my plugin.");
         }
     }
-
     @Override
     public UserManager getUserManager() {
         return userManager;
@@ -103,6 +111,16 @@ public class SupportBungeePlugin extends Plugin implements SupportMain {
         this.config = config;
     }
 
+    @Override
+    public void loadUser(UUID uuid, String name) {
+        UserData data = userManager.loadUserData(uuid);
+        if (data==null) {
+            userManager.addUser(new BungeeUser(new UserData(uuid, name, false, true, 0)));
+            return;
+        }
+        userManager.addUser(new BungeeUser(data));
+    }
+
     public void saveResource(String resourcePath) {
         try {
             File file = new File(getDataFolder(), resourcePath);
@@ -119,5 +137,10 @@ public class SupportBungeePlugin extends Plugin implements SupportMain {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    private void registerEvents() {
+        getProxy().getPluginManager().registerListener(this, new ChatListener(this));
+        getProxy().getPluginManager().registerListener(this, new QuitListener(this));
+        getProxy().getPluginManager().registerListener(this, new JoinListener(this));
     }
 }

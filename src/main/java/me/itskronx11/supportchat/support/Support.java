@@ -34,6 +34,7 @@ public class Support {
         }
         if (whoClosed!=null) {
             sendMessage(main.getLanguageManager().getMessage(whoClosed, "support-close"));
+
         }
         userIds.clear();
     }

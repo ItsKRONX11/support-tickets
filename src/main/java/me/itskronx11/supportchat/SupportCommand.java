@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class SupportCommand {
+    private static final String[] COMMANDS = new String[]{"help", "reload", "request", "join", "leave", "list", "chat", "togglechat", "togglealerts", "add", "remove", "close"};
     private final SupportMain main;
     private final ConfigManager languageManager;
 
@@ -20,20 +21,16 @@ public class SupportCommand {
     }
 
     public List<String> tabComplete(User sender, String[] args) {
-
-        String[] commands = new String[]{"help", "reload", "request", "join", "leave", "list", "chat", "togglechat", "togglealerts", "add", "remove"};
-
-        return Arrays.stream(commands).filter(cmd -> sender.hasPermission("support."+cmd)).filter(cmd -> cmd.toLowerCase().startsWith(args[0].toLowerCase())).collect(Collectors.toList());
+        return Arrays.stream(COMMANDS).filter(cmd -> sender.hasPermission("support."+cmd)).filter(cmd -> cmd.toLowerCase().startsWith(args[0].toLowerCase())).collect(Collectors.toList());
     }
     public final void onCommand(User sender, String[] args) {
         if (!sender.hasPermission("support.use")) {
             sender.sendMessage(languageManager.getMessage("no-permission"));
             return;
         }
-
         if (args.length == 0) {
-            for (String o : languageManager.getUsage(sender)) {
-                sender.sendMessage(o);
+            for (String usageLine : languageManager.getUsage(sender)) {
+                sender.sendMessage(usageLine);
             }
             return;
         }
@@ -85,6 +82,10 @@ public class SupportCommand {
 
             case "remove":
                 remove(sender, args);
+                return;
+
+            case "close":
+                close(sender);
                 return;
 
             default:
@@ -347,5 +348,17 @@ public class SupportCommand {
             return;
         }
         target.getSupport().addPlayer(sender);
+    }
+
+    public void close(User sender) {
+        if (checkPermission(sender, "support.close")) return;
+
+        if (sender.getSupport()==null) {
+            sender.sendMessage(languageManager.getMessage(sender, "not-in-ticket"));
+            return;
+        }
+
+
+        sender.getSupport().close(sender);
     }
 }

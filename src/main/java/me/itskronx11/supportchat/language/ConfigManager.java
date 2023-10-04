@@ -43,6 +43,16 @@ public abstract class ConfigManager {
                 config.set(key, defaultConfig.get(key));
             }
         }
+        // in the case any command has been added and this is a language file,
+        // add the extra command to the current usage
+        final String path = "command-usage";
+        if (defaultConfig.contains(path)) {
+            for (String key : defaultConfig.getSubKeys(path)) {
+                if (!config.containsSubKey(path, key)) {
+                    config.setSubKey(path, key, defaultConfig.getSub(path, key));
+                }
+            }
+        }
         config.save(file);
     }
 

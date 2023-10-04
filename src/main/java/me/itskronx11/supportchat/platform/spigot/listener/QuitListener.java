@@ -18,9 +18,9 @@ public class QuitListener implements Listener {
         User user = main.getUserManager().getUser(e.getPlayer().getUniqueId());
         Support support = user.getSupport();
 
-        if (support!=null) {
-            support.removePlayer(user);
-        }
+        if (support!=null) support.removePlayer(user);
 
+        main.getUserManager().save(user);
+        main.getUserManager().removeUser(user);
     }
 }

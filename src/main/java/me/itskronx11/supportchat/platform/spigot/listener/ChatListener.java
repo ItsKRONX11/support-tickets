@@ -1,8 +1,8 @@
 package me.itskronx11.supportchat.platform.spigot.listener;
 
-import me.itskronx11.supportchat.user.User;
 import me.itskronx11.supportchat.platform.spigot.SupportSpigotPlugin;
 import me.itskronx11.supportchat.support.Support;
+import me.itskronx11.supportchat.user.User;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
@@ -13,7 +13,7 @@ public class ChatListener implements Listener {
         this.main = main;
     }
     @EventHandler
-    public void onChat(AsyncPlayerChatEvent e) {
+    public void onChat(final AsyncPlayerChatEvent e) {
         User user = main.getUserManager().getUser(e.getPlayer().getUniqueId());
         Support support = user.getSupport();
 
