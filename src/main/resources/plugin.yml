@@ -9,3 +9,4 @@ commands:
     aliases: [sup]
 softdepend:
   - LuckPerms
+  - PlaceholderAPI

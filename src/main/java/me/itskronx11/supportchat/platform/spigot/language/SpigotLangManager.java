@@ -1,8 +1,11 @@
 package me.itskronx11.supportchat.platform.spigot.language;
 
+import me.clip.placeholderapi.PlaceholderAPI;
 import me.itskronx11.supportchat.SupportMain;
 import me.itskronx11.supportchat.language.ConfigManager;
 import me.itskronx11.supportchat.language.ConfigurationWrapper;
+import me.itskronx11.supportchat.user.User;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
@@ -37,6 +40,13 @@ public final class SpigotLangManager extends ConfigManager {
         YamlConfiguration defaultConfig = YamlConfiguration.loadConfiguration(new InputStreamReader(main.getResourceStream("language/lang_en.yml")));
 
         ConfigManager.checkAndSave(new ConfigurationWrapper.SpigotConfig(defaultConfig), config, file);
+    }
+    @Override
+    public String format(User user, String s) {
+        if (main.isPlaceholderAPI()) {
+            return PlaceholderAPI.setPlaceholders(Bukkit.getPlayer(user.getUniqueId()), super.format(user, s));
+        }
+        return super.format(user, s);
     }
 
 }

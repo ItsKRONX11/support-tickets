@@ -143,4 +143,7 @@ public class SupportBungeePlugin extends Plugin implements SupportMain {
         getProxy().getPluginManager().registerListener(this, new QuitListener(this));
         getProxy().getPluginManager().registerListener(this, new JoinListener(this));
     }
+    public boolean isPlaceholderAPI() {
+        return false;
+    }
 }

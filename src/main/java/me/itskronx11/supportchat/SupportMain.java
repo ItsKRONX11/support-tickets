@@ -18,4 +18,5 @@ public interface SupportMain {
     void setConfig(ConfigurationWrapper config);
     boolean isLuckPerms();
     void loadUser(UUID uuid, String name);
+    boolean isPlaceholderAPI();
 }

@@ -33,6 +33,7 @@ public final class SupportSpigotPlugin extends JavaPlugin implements SupportMain
     private ConfigurationWrapper configuration;
     @Getter
     boolean luckPerms;
+    boolean placeholderAPI;
 
     @Override
     public void onDisable() {
@@ -48,6 +49,7 @@ public final class SupportSpigotPlugin extends JavaPlugin implements SupportMain
         if (!userDataFolder.exists()) userDataFolder.mkdirs();
 
         this.luckPerms = Bukkit.getPluginManager().getPlugin("LuckPerms")!=null;
+        this.placeholderAPI = Bukkit.getPluginManager().getPlugin("PlaceholderAPI")!=null;
 
         configuration = new ConfigurationWrapper.SpigotConfig(YamlConfiguration.loadConfiguration(new File(getDataFolder(), "config.yml")));
         languageManager = new SpigotLangManager(this);
@@ -113,6 +115,9 @@ public final class SupportSpigotPlugin extends JavaPlugin implements SupportMain
             return;
         }
         userManager.addUser(new SpigotUser(data));
+    }
+    public boolean isPlaceholderAPI() {
+        return placeholderAPI;
     }
 
 }
