@@ -17,7 +17,6 @@ import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -25,7 +24,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.UUID;
 
-public final class SupportSpigotPlugin extends JavaPlugin implements SupportMain, Listener {
+public final class SupportSpigotPlugin extends JavaPlugin implements SupportMain {
     @Getter
     private SpigotLangManager languageManager;
     private UserManager userManager;
